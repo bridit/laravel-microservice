@@ -1,0 +1,52 @@
+{
+  "name": "bridit/laravel-microservice",
+  "description": "Laravel Microservice",
+  "keywords": [
+    "bridit",
+    "aws",
+    "laravel",
+    "microservice"
+  ],
+  "type": "library",
+  "homepage": "https://github.com/bridit/laravel-microservice",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Gustavo Siqueira",
+      "email": "gus@brid-it.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1",
+    "aws/aws-sdk-php-laravel": "^3.0",
+    "bref/bref": "^0.5.9",
+    "illuminate/support": "^5.8|^6.0|^7.0",
+    "bridit/laravel-sns": "^1.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.16",
+    "nunomaduro/collision": "^4.2",
+    "nunomaduro/larastan": "^0.5",
+    "nunomaduro/phpinsights": "^1.14",
+    "phpunit/phpunit": "^9.1"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Bridit\\Microservices\\MicroserviceServiceProvider"
+      ]
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Bridit\\Microservices\\": "src"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
