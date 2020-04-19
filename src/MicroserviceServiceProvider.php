@@ -59,7 +59,6 @@ class MicroserviceServiceProvider extends ServiceProvider
   private function ensureCoreDirectoriesExists(): void
   {
 
-    $this->createDirectoryIfNotExists(base_path('bootstrap/cache'));
     $this->createDirectoryIfNotExists(storage_path('app/public'));
     $this->createDirectoryIfNotExists(storage_path('framework/cache'));
     $this->createDirectoryIfNotExists(storage_path('framework/sessions'));
@@ -103,7 +102,8 @@ class MicroserviceServiceProvider extends ServiceProvider
   {
     $ssm = Aws::createClient('ssm');
     $env = $this->app['config']->get('app.env');
-    $oauthKeyName = $this->app['config']->get('app.oauth_key_name', strtolower($this->app['config']->get('app.name')));
+    $oauthKeyName = $this->app['config']->get('app.oauth_key_name', $this->app['config']->get('app.name'));
+    $parameterPrefix = strtolower($oauthKeyName . '-' . $env);
 
     return [
       'private' => $ssm->getParameter(['Name' => "$oauthKeyName-$env-private", 'WithDecryption' => true]),
