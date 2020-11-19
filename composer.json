@@ -20,7 +20,7 @@
     "php": "^7.1",
     "aws/aws-sdk-php-laravel": "^3.0",
     "bref/bref": "^0.5.9",
-    "bridit/laravel-sns": "^1.1",
+    "bridit/laravel-sns": "^2.0",
     "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
     "league/flysystem-aws-s3-v3": "^1.0"
   },
