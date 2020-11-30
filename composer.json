@@ -17,18 +17,16 @@
     }
   ],
   "require": {
-    "php": "^7.1",
+    "php": "^7.3|^8.0",
     "aws/aws-sdk-php-laravel": "^3.0",
-    "bref/bref": "^0.5.9",
+    "bref/bref": "^1.0",
+    "bref/extra-php-extensions": "^0.7.2",
+    "bref/laravel-bridge": "^1.0",
     "bridit/laravel-sns": "^2.0",
-    "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
-    "league/flysystem-aws-s3-v3": "^1.0"
+    "illuminate/support": "^5.8|^6.0|^7.0|^8.0"
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.16",
-    "nunomaduro/collision": "^5.0",
-    "nunomaduro/larastan": "^0.6",
-    "nunomaduro/phpinsights": "^1.14",
     "phpunit/phpunit": "^9.3"
   },
   "extra": {
