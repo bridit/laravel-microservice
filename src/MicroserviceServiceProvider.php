@@ -7,6 +7,7 @@ namespace Bridit\Microservices;
 use Exception;
 use Aws\Laravel\AwsFacade as Aws;
 use Aws\Laravel\AwsServiceProvider;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Bridit\Sns\SnsBroadcastServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
@@ -41,6 +42,9 @@ class MicroserviceServiceProvider extends ServiceProvider
     $this->app->register(SnsBroadcastServiceProvider::class);
 
     $this->healthCheckRouteRegister();
+
+    Config::set('logging.channels.batch', Config::get('logging.channels.stack'));
+    Config::set('logging.default', 'batch');
   }
 
   private function healthCheckRouteRegister(): void
