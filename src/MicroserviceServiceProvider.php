@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace Bridit\Microservices;
 
-use Exception;
 use Aws\Laravel\AwsFacade as Aws;
 use Aws\Laravel\AwsServiceProvider;
+use Bridit\Sns\SnsBroadcastServiceProvider;
+use Exception;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
-use Bridit\Sns\SnsBroadcastServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
-use Illuminate\Foundation\Application as LaravelApplication;
+use function storage_path;
 
 class MicroserviceServiceProvider extends ServiceProvider
 {
@@ -19,7 +20,7 @@ class MicroserviceServiceProvider extends ServiceProvider
   /**
    * @throws Exception
    */
-  public function boot()
+  public function boot(): void
   {
     if ($this->app['config']->get('app.env') === 'local') {
       return;
@@ -27,10 +28,9 @@ class MicroserviceServiceProvider extends ServiceProvider
 
     $this->ensureCoreDirectoriesExists();
 
-    if(class_exists('Laravel\Passport\Passport')) {
+    if (class_exists('Laravel\Passport\Passport')) {
       $this->ensurePassportKeysExists();
     }
-
   }
 
   /**
@@ -54,7 +54,7 @@ class MicroserviceServiceProvider extends ServiceProvider
         ->middleware('web')
         ->get('health-check', 'Bridit\Microservices\Http\Controllers\HealthCheckController@check');
     } elseif ($this->app instanceof LumenApplication) {
-      $this->app['router']->group([], function ($router):void {
+      $this->app['router']->group([], function ($router): void {
         $router->get('health-check', 'Bridit\Microservices\Http\Controllers\HealthCheckController@check');
       });
     }
@@ -62,19 +62,17 @@ class MicroserviceServiceProvider extends ServiceProvider
 
   private function ensureCoreDirectoriesExists(): void
   {
-
     $this->createDirectoryIfNotExists(storage_path('app/public'));
     $this->createDirectoryIfNotExists(storage_path('framework/cache'));
     $this->createDirectoryIfNotExists(storage_path('framework/sessions'));
     $this->createDirectoryIfNotExists(storage_path('framework/testing'));
     $this->createDirectoryIfNotExists(storage_path('framework/views'));
     $this->createDirectoryIfNotExists(storage_path('logs'));
-
   }
 
   private function createDirectoryIfNotExists(string $path): void
   {
-    if (!is_dir($path)) {
+    if (! is_dir($path)) {
       mkdir($path, 0755, true);
     }
   }
@@ -92,7 +90,7 @@ class MicroserviceServiceProvider extends ServiceProvider
     $privateKey = data_get($keys, 'private.Parameter.Value');
     $publicKey = data_get($keys, 'public.Parameter.Value');
 
-    if(blank($privateKey) || blank($publicKey)) {
+    if (blank($privateKey) || blank($publicKey)) {
       throw new Exception('Passport keys not set on AWS SSM.');
     }
 
@@ -107,7 +105,7 @@ class MicroserviceServiceProvider extends ServiceProvider
     $ssm = Aws::createClient('ssm');
     $env = $this->app['config']->get('app.env');
     $oauthKeyName = $this->app['config']->get('app.oauth_key_name', $this->app['config']->get('app.name'));
-    $parameterPrefix = strtolower($oauthKeyName . '-' . $env);
+    $parameterPrefix = strtolower($oauthKeyName.'-'.$env);
 
     return [
       'private' => $ssm->getParameter(['Name' => "$oauthKeyName-$env-private", 'WithDecryption' => true]),
@@ -129,5 +127,4 @@ class MicroserviceServiceProvider extends ServiceProvider
     chmod($privateKeyPath, 0660);
     chmod($publicKeyPath, 0660);
   }
-
 }

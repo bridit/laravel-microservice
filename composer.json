@@ -22,12 +22,13 @@
     "bref/bref": "^1.0",
     "bref/extra-php-extensions": "^0.7.2",
     "bref/laravel-bridge": "^1.0",
-    "bridit/laravel-sns": "^2.0",
+    "bridit/laravel-sns": "^2.1",
     "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
     "league/flysystem-aws-s3-v3": "^1.0"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.16",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpstan/phpstan": "^0.12.88",
     "phpunit/phpunit": "^9.3"
   },
   "extra": {
@@ -43,7 +44,16 @@
     }
   },
   "scripts": {
-    "test": "vendor/bin/phpunit",
+    "phpunit": [
+      "vendor/bin/phpunit"
+    ],
+    "phpstan": [
+      "vendor/bin/phpstan analyze src tests -c phpstan.neon --level=7"
+    ],
+    "test": [
+      "@phpunit",
+      "@phpstan"
+    ],
     "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
   },
   "config": {
