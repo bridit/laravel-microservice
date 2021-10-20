@@ -20,7 +20,7 @@
     "php": "^7.3|^8.0",
     "aws/aws-sdk-php-laravel": "^3.0",
     "bref/bref": "^1.0",
-    "bref/extra-php-extensions": "^0.7.2",
+    "bref/extra-php-extensions": "^0.11.18",
     "bref/laravel-bridge": "^1.0",
     "bridit/laravel-sns": "^2.1",
     "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
